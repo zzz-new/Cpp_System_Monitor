@@ -29,13 +29,13 @@ Processor& System::Cpu() { return cpu_; }
 //     return processes_;
 // }
 vector<Process>& System::Processes() {
-    // processes_.clear();
-    // vector<int> pids = LinuxParser::Pids();
-    // for (int pid: pids){
-    //     Process process(pid); // each Process contains pid, usr, cmd, etc.
-    //     processes_.push_back(process);
-    // }
-    //std::sort(processes_.begin(),processes_.end());
+    processes_.clear();
+    vector<int> pids = LinuxParser::Pids();
+    for (int pid: pids){
+        Process process(pid); // each Process contains pid, usr, cmd, etc.
+        processes_.push_back(process);
+    }
+    std::sort(processes_.begin(),processes_.end());
     return processes_; 
 }
 

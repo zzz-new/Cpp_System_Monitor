@@ -3,6 +3,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "process.h"
 #include "processor.h"
@@ -13,29 +14,36 @@ using std::set;
 using std::size_t;
 using std::string;
 using std::vector;
-//using namespace std;
+using namespace std;
 
 // Return the system's CPU
 Processor& System::Cpu() { return cpu_; }
 
-// Return a container composed of the system's processes
-// vector<Process>& System::Processes() {
-//     // processes_.clear();
-//     vector<int> pids = LinuxParser::Pids();
-//     for (const auto& pid: pids){
-//         processes_.push_back(Process(pid));
-//     }
-//     std::sort(processes_.begin(),processes_.end());
-//     return processes_;
-// }
+
 vector<Process>& System::Processes() {
     processes_.clear();
     vector<int> pids = LinuxParser::Pids();
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+
+    //auto pids = LinuxParser::Pids();
+=======
+>>>>>>> 09da8091dca3342cdca391b2cd8af46f38dfba1d
+>>>>>>> Stashed changes
     for (int pid: pids){
         Process process(pid); // each Process contains pid, usr, cmd, etc.
         processes_.push_back(process);
     }
+<<<<<<< Updated upstream
     std::sort(processes_.begin(),processes_.end());
+=======
+<<<<<<< HEAD
+    //std::sort(processes_.begin(),processes_.end());
+=======
+    std::sort(processes_.begin(),processes_.end());
+>>>>>>> 09da8091dca3342cdca391b2cd8af46f38dfba1d
+>>>>>>> Stashed changes
     return processes_; 
 }
 

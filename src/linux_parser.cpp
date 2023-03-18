@@ -67,11 +67,12 @@ vector<int> LinuxParser::Pids() {
   return pids;
 }
 
-// Read and return the system memory utilization
-// from '/proc/meminfo'
+// Read and return the system memory utilization from '/proc/meminfo'
 float LinuxParser::MemoryUtilization() { 
   string line, key;
-  float MemTotal, MemFree, memUsage;
+  string memTotal_s, memFree_s;
+  float memUsage;
+  // float memTotal, memFree, memUsage;
   std::ifstream stream(kProcDirectory+kMeminfoFilename);
   if (stream.is_open()){
     while (std::getline(stream, line)){ // get each line
@@ -80,14 +81,15 @@ float LinuxParser::MemoryUtilization() {
       linestream >> key; 
 
       if (key=="MemTotal:"){
-        linestream >> MemTotal;
+        linestream >> memTotal_s;
       }
       else if (key=="MemFree:"){
-        linestream >> MemFree;
+        linestream >> memFree_s;
         break; // without break, it keeps looping through all keys
       }
     }
-    memUsage = (MemTotal-MemFree)/MemTotal;
+    //memUsage = (memTotal-memFree)/memTotal;
+    memUsage = (stof(memTotal_s)-stof(memFree_s))/stof(memTotal_s);
   }
   return memUsage;
 }
@@ -133,7 +135,7 @@ long LinuxParser::ActiveJiffies(int pid) {
   long cstime = stol(values[16]);
   active = utime + stime+ cutime + cstime;
   
-  return active;
+  return active/sysconf(_SC_CLK_TCK);
 }
 
 // Read and return the number of active jiffies for the system
@@ -154,12 +156,12 @@ long LinuxParser::IdleJiffies() {
   return stol(cpu[3]); // the 4th value is kIdle_
 }
 
-// Read and return CPU utilization
+// Read and return CPU utilization from /proc/stat file
 vector<string> LinuxParser::CpuUtilization() {
   string line, key;
   vector<string> cpu_list;
 
-  std::ifstream stream(kProcDirectory + kStatusFilename);
+  std::ifstream stream(kProcDirectory + kStatFilename);
   if (stream.is_open()){
     while (std::getline(stream, line)){ // get each line
       std::istringstream linestream(line);
@@ -186,7 +188,7 @@ int LinuxParser::TotalProcesses() {
       std::istringstream linestream(line);
       linestream >> key; 
 
-      if (key=="processes:"){
+      if (key=="processes"){
         linestream >> totalProcess;
         break;
       }
@@ -206,7 +208,7 @@ int LinuxParser::RunningProcesses() {
       std::istringstream linestream(line);
       linestream >> key; 
 
-      if (key=="procs_running:"){
+      if (key=="procs_running"){
         linestream >> runningProcess;
         break;
       }

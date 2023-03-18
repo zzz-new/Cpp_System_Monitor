@@ -7,7 +7,7 @@ using namespace std;
 
 // OUTPUT: HH:MM:SS
 string Format::ElapsedTime(long seconds) {
-    float hour, minute;
+    int hour, minute;
     hour= seconds/3600;
     seconds=seconds % 3600;
     minute=seconds/60;
@@ -16,4 +16,5 @@ string Format::ElapsedTime(long seconds) {
     return to_string(hour)+":"+
             to_string(minute)+":"+
             to_string(seconds);
+    // return string();
 }

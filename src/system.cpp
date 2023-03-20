@@ -29,7 +29,7 @@ vector<Process>& System::Processes() {
         Process process(pid); // each Process contains pid, usr, cmd, etc.
         processes_.push_back(process);
     }
-    //std::sort(processes_.begin(),processes_.end());
+    std::sort(processes_.begin(),processes_.end());
     return processes_; 
 }
 

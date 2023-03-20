@@ -13,8 +13,18 @@ string Format::ElapsedTime(long seconds) {
     minute=seconds/60;
     seconds=seconds%60;
 
-    return to_string(hour)+":"+
-            to_string(minute)+":"+
-            to_string(seconds);
+    string sec = to_string(seconds);
+    sec.insert(0, 2-sec.length(), '0');
+
+    string mins = to_string(minute);
+    mins.insert(0, 2-mins.length(), '0');
+
+    string hrs = to_string(hour);
+    hrs.insert(0, 2-hrs.length(), '0');
+
+    // return to_string(hour)+":"+
+    //         to_string(minute)+":"+
+    //         to_string(seconds);
+    return sec+":"+mins+":"+hrs;
     // return string();
 }

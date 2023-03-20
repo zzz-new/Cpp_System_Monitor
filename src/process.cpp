@@ -20,7 +20,7 @@ Process::Process(int pid) {
   user_ = LinuxParser::User(pid);
   uptime_ = LinuxParser::UpTime(pid);
 
-  long delUptime = LinuxParser::UpTime() - uptime_;
+  long delUptime = uptime_;
   long totaltime = LinuxParser::ActiveJiffies(pid);
   cpu_ = float(totaltime) / float(delUptime);
 }
